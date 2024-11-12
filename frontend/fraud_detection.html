@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection - E-Commerce Cybersecurity System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #e0f7fa, #80deea);
+            color: #333;
+        }
+        header {
+            background-color: #00796b;
+            color: #fff;
+            padding: 1.5em;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 0.5em;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ffccbc;
+        }
+        main {
+            padding: 6em 2em 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2em;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 1em 0;
+            width: 100%;
+            max-width: 800px;
+        }
+        h2 {
+            color: #00796b;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2em 0;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1em;
+            width: 100%;
+            max-width: 800px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 1em;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #00796b;
+            color: #fff;
+        }
+        .search-container, .date-filter-container, .export-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 1em 0;
+            width: 100%;
+        }
+        .search-container input, .date-filter-container input {
+            width: 48%;
+            padding: 0.75em;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: border 0.3s;
+        }
+        .search-container input:focus, .date-filter-container input:focus {
+            border-color: #00796b;
+            outline: none;
+        }
+        .export-container button {
+            padding: 0.75em 1.5em;
+            border: none;
+            background-color: #ff9800;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .export-container button:hover {
+            background-color: #fb8c00;
+        }
+        footer {
+            background-color: #00796b;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .alert {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #f44336;
+            border-radius: 8px;
+            padding: 1em;
+            margin: 1em 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>E-Commerce Cybersecurity</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="fraud_detection.html">Fraud Detection</a>
+            <a href="security_alerts.html">Security Alerts</a>
+            <a href="website-security.html">Website Security</a>
+        </nav>
+    </header>
+    <main>
+        <section class="card">
+            <h2>Fraud Detection Overview</h2>
+            <p>Monitor and analyze fraud detection metrics to protect your e-commerce platform.</p>
+            <div class="alert">Alert: Suspicious activity detected! Please review the transactions.</div>
+        </section>
+        <section class="chart-container">
+            <h2>Fraud Trends</h2>
+            <canvas id="fraudTrendsChart"></canvas>
+        </section>
+        <section class="card">
+            <h2>Top Fraudulent Transactions</h2>
+            <div class="search-container">
+                <input type="text" id="transactionSearch" placeholder="Search transactions...">
+                <input type="date" id="startDate">
+                <input type="date" id="endDate">
+            </div>
+            <div class="export-container">
+                <button id="exportCsv">Export to CSV</button>
+            </div>
+            <div class="table-container">
+                <table id="fraudTransactionsTable">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="chart-container">
+            <h2>Fraud Detection Heatmap</h2>
+            <canvas id="fraudHeatmap"></canvas>
+        </section>
+        <section class="chart-container">
+            <h2>Geographical Fraud Distribution</h2>
+            <canvas id="geoFraudHeatmap"></canvas>
+        </section>
+        <section class="card">
+            <h2>Alerts</h2>
+            <ul id="alertsList">
+                <!-- Alerts will be populated dynamically -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 E-Commerce Cybersecurity</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Create a new gradient fill with different colors
+        const ctx1 = document.getElementById('fraudTrendsChart').getContext('2d');
+        const gradientFill = ctx1.createLinearGradient(0, 0, 0, 400);
+        gradientFill.addColorStop(0, 'rgba(63, 81, 181, 1)'); // Blue color
+        gradientFill.addColorStop(1, 'rgba(103, 58, 183, 0)'); // Purple transparent
+
+        const fraudTrendsData = [30, 55, 80, 90, 75, 120]; // Initial data for trends
+
+        const fraudTrendsChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Fraud Incidents',
+                    data: fraudTrendsData,
+                    borderColor: '#3f51b5',
+                    backgroundColor: gradientFill,
+                    borderWidth: 3, // Make the line thicker
+                    pointBackgroundColor: '#3f51b5',
+                    pointBorderColor: '#fff',
+                    pointHoverRadius: 8, // Increase hover radius
+                    pointHoverBackgroundColor: '#673ab7', // Purple hover
+                    pointHoverBorderColor: '#fff',
+                    pointRadius: 6, // Make points larger
+                    pointHitRadius: 10,
+                    fill: true,
+                    tension: 0.4, // Slightly more curve for smoothness
+                    shadowOffsetX: 4,
+                    shadowOffsetY: 4,
+                    shadowBlur: 15,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)', // Deeper shadow
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: false, // Disable all animations
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Fraud Detection Trends',
+                        font: {
+                            size: 18,
+                            weight: 'bold',
+                            family: 'Arial'
+                        },
+                        padding: {
+                            top: 20,
+                            bottom: 10
+                        }
+                    },
+                    subtitle: {
+                        display: true,
+                        text: 'Monthly overview of detected fraud incidents',
+                        font: {
+                            size: 14,
+                            style: 'italic'
+                        },
+                        color: '#00796b',
+                        padding: {
+                            bottom: 20
+                        }
+                    },
+                    legend: { 
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + ' incidents';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)', // Soft grid line
+                        },
+                        ticks: {
+                            color: '#00796b',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false // No grid lines for x-axis
+                        },
+                        ticks: {
+                            color: '#00796b',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const fraudHeatmapData = [
+            { x: 1, y: 1, r: 20 }, 
+            { x: 1, y: 2, r: 30 },
+            { x: 2, y: 1, r: 45 },
+            { x: 3, y: 1, r: 25 },
+            { x: 3, y: 2, r: 35 },
+            { x: 4, y: 1, r: 50 }
+        ];
+        const ctx2 = document.getElementById('fraudHeatmap').getContext('2d');
+        const fraudHeatmapChart = new Chart(ctx2, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Fraud Activity',
+                    data: fraudHeatmapData,
+                    backgroundColor: 'rgba(76, 175, 80, 0.6)',
+                }]
+            },
+            options: {
+                scales: {
+                    x: { title: { display: true, text: 'X Axis' } },
+                    y: { title: { display: true, text: 'Y Axis' } }
+                }
+            }
+        });
+
+        // Simulate updates for fraud trends and fraudulent transactions every second
+        setInterval(() => {
+            // Update fraud trends data
+            const newValue = Math.floor(Math.random() * 100);
+            fraudTrendsData.push(newValue);
+            if (fraudTrendsData.length > 6) fraudTrendsData.shift();
+            fraudTrendsChart.data.datasets[0].data = fraudTrendsData;
+            fraudTrendsChart.update();
+
+            // Update heatmap data
+            const newFraudHeatmapData = fraudHeatmapData.map(point => {
+                return {
+                    x: point.x,
+                    y: point.y,
+                    r: point.r + Math.floor(Math.random() * 10) // Randomize radius for demonstration
+                };
+            });
+            fraudHeatmapChart.data.datasets[0].data = newFraudHeatmapData;
+            fraudHeatmapChart.update();
+
+            // Simulate new fraudulent transactions
+            const transactionId = Math.floor(Math.random() * 10000);
+            const transactionDate = new Date();
+            const transactionAmount = (Math.random() * 1000).toFixed(2);
+            const transactionType = Math.random() > 0.5 ? 'Purchase' : 'Refund';
+            const transactionStatus = Math.random() > 0.5 ? 'Completed' : 'Pending';
+
+            const newRow = `
+                <tr>
+                    <td>${transactionId}</td>
+                    <td>${transactionDate.toLocaleDateString()} ${transactionDate.toLocaleTimeString()}</td>
+                    <td>${transactionAmount}</td>
+                    <td>${transactionType}</td>
+                    <td>${transactionStatus}</td>
+                </tr>
+            `;
+
+            document.querySelector('#fraudTransactionsTable tbody').insertAdjacentHTML('beforeend', newRow);
+
+            // Simulate new alerts
+            const alertMessage = `Alert: Suspicious transaction detected! Transaction ID: ${transactionId}`;
+            const alertItem = `<li>${alertMessage}</li>`;
+            document.getElementById('alertsList').insertAdjacentHTML('beforeend', alertItem);
+        }, 3000);
+
+        // CSV Export functionality
+        document.getElementById('exportCsv').addEventListener('click', function () {
+            const table = document.getElementById('fraudTransactionsTable');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            const csvContent = rows.map(row => {
+                const cols = Array.from(row.querySelectorAll('td, th'));
+                return cols.map(col => col.textContent).join(',');
+            }).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'fraudulent_transactions.csv';
+            link.click();
+        });
+
+        // Search functionality
+        document.getElementById('transactionSearch').addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#fraudTransactionsTable tbody tr');
+            rows.forEach(row => {
+                const rowData = row.textContent.toLowerCase();
+                row.style.display = rowData.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        // Date filtering functionality
+        document.getElementById('startDate').addEventListener('change', filterByDate);
+        document.getElementById('endDate').addEventListener('change', filterByDate);
+
+        function filterByDate() {
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            const rows = document.querySelectorAll('#fraudTransactionsTable tbody tr');
+
+            rows.forEach(row => {
+                const dateCell = row.querySelector('td:nth-child(2)').textContent.split(' ')[0];
+                const transactionDate = new Date(dateCell);
+                if ((isNaN(startDate.getTime()) || transactionDate >= startDate) && 
+                    (isNaN(endDate.getTime()) || transactionDate <= endDate)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

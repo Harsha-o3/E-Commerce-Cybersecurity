@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Cybersecurity</title>
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1.5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 1.8em;
+            color: #FF6600;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: #FF6600;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-left: 2em;
+            transition: color 0.3s ease-in-out;
+        }
+
+        nav a:hover {
+            color: #FFC107;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 80px; /* Adjust for header height */
+            text-align: center;
+            padding: 3em 1em;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 1em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #FFC107;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 2em;
+            line-height: 1.6;
+        }
+
+        /* INFO SECTION */
+        .info-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 2em;
+            gap: 2em;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2em;
+            width: 300px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .box h3 {
+            color: #FFC107;
+            margin-bottom: 1em;
+            font-size: 1.5em;
+        }
+
+        .box p {
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #FF6600;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* ANIMATION EFFECT */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) {
+            .info-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .box {
+                width: 90%;
+            }
+
+            h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>E-Commerce Cybersecurity</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="fraud_detection.html">Fraud Detection</a>
+            <a href="security_alerts.html">Security Alerts</a>
+            <a href="website-security.html">Website Security</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <h2>Welcome to E-Commerce Cybersecurity</h2>
+        <p>Protect your e-commerce business with our advanced cybersecurity solutions, ensuring safe transactions, secure data, and threat mitigation in real-time.</p>
+
+        <!-- INFO SECTION -->
+        <section class="info-section">
+            
+            <div class="box" onclick="location.href='/dashboard'">
+                <h3>Dashboard</h3>
+                <P>To see the pie charts and bargraphs of the suspicious data which were coming in the website by the fraud members.</P>
+            </div>
+            <div class="box" onclick="location.href='/frauddetection'">
+                <h3>Fraud Detection</h3>
+                <p>AI-powered algorithms to detect and mitigate fraudulent activities before they impact your business.</p>
+            </div>
+            <div class="box" onclick="location.href='/security'">
+                <h3>Security Alerts</h3>
+                <p>Receive real-time alerts about any potential cybersecurity threats, enabling quick responses to protect your assets.</p>
+            </div>
+            <div class="box" onclick="location.href='/website'">
+                <h3>Website Security</h3>
+                <p>Monitor your e-commerce platform for vulnerabilities and cyber threats with our continuous security solutions.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 E-Commerce Cybersecurity. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

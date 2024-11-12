@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Alerts - E-Commerce Cybersecurity System</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #e9ecef, #f8f9fa);
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 1em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            inline-size: 100%;
+            inset-block-start: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1em;
+            transition: color 0.3s;
+            font-size: 1em;
+        }
+
+        nav a:hover {
+            color: #ffc107;
+        }
+
+        main {
+            padding-block-start: 80px;
+            padding: 2em;
+        }
+
+        .section {
+            margin-block-end: 2em;
+        }
+
+        .section h2 {
+            font-size: 1.6em;
+            margin-block-end: 1em;
+            color: #495057;
+        }
+
+        .card {
+            border-radius: 10px;
+            padding: 1.5em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            margin-block-end: 1.5em;
+        }
+
+        .search-container, .filter-container, .export-container {
+            margin-block-end: 1.5em;
+        }
+
+        .search-container input[type="text"],
+        .filter-container select {
+            inline-size: 100%;
+            padding: 0.75em;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-block-end: 0.5em;
+            font-size: 1em;
+        }
+
+        .export-container button {
+            padding: 0.75em 1.5em;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .export-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            inline-size: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: 0.75em;
+            text-align: start;
+        }
+
+        th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .chart-container {
+            position: relative;
+            block-size: 300px;
+            inline-size: 100%;
+            margin-block-end: 2em;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+            position: relative;
+            margin-block-start: 2em;
+        }
+
+        .notification-container {
+            position: fixed;
+            inset-block-start: 70px;
+            inset-inline-end: 0;
+            background-color: #28a745;
+            color: #fff;
+            padding: 1em;
+            border-radius: 0 0 0 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            inline-size: 300px;
+            max-block-size: 300px;
+            overflow-y: auto;
+            z-index: 1001;
+            display: none;
+        }
+
+        .notification-container h2 {
+            margin-block-start: 0;
+            font-size: 1.2em;
+        }
+
+        .notification {
+            margin : 0.5em 0;
+        }
+
+        .summary-container {
+            display: flex;
+            justify-content: space-between;
+            margin-block-end: 2em;
+        }
+
+        .summary-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 1em;
+            flex: 1;
+            margin: 0 1em;
+            text-align: center;
+        }
+
+        .summary-box h3 {
+            margin-block-end: 0.5em;
+        }
+
+        .summary-box p {
+            font-size: 1.5em;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>E-Commerce Cybersecurity</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="fraud_detection.html">Fraud Detection</a>
+            <a href="security_alerts.html">Security Alerts</a>
+            <a href="website-security.html">Website Security</a>
+        </nav>
+    </header>
+    <main>
+        <section class="section">
+            <h2>Real-Time Alerts Feed</h2>
+            <div class="card">
+                <div class="search-container">
+                    <input type="text" id="alertSearch" placeholder="Search alerts...">
+                </div>
+                <div class="filter-container">
+                    <select id="alertCategoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Malware">Malware</option>
+                        <option value="Phishing">Phishing</option>
+                        <option value="Intrusion">Intrusion</option>
+                        <option value="DDoS">DDoS</option>
+                    </select>
+                </div>
+                <div class="export-container">
+                    <button id="exportAlerts">Export to CSV</button>
+                </div>
+                <div class="table-container">
+                    <table id="alertsTable">
+                        <thead>
+                            <tr>
+                                <th>Alert ID</th>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Severity</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Alert Summary</h2>
+            <div class="summary-container">
+                <div class="summary-box">
+                    <h3>Total Alerts</h3>
+                    <p id="totalAlerts">0</p>
+                </div>
+                <div class="summary-box">
+                    <h3>High Severity Alerts</h3>
+                    <p id="highSeverity">0</p>
+                </div>
+                <div class="summary-box">
+                    <h3>Unresolved Alerts</h3>
+                    <p id="unresolvedAlerts">0</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Alert Statistics</h2>
+            <div class="chart-container">
+                <canvas id="alertStatsChart"></canvas>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Alert Trends Over Time</h2>
+            <div class="chart-container">
+                <canvas id="alertTrendsChart"></canvas>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Alert Details</h2>
+            <div id="alertDetails" class="card">
+                <p>Select an alert to view details.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 E-Commerce Cybersecurity</p>
+    </footer>
+    <div class="notification-container" id="notificationContainer">
+        <h2>New Alerts</h2>
+        <!-- Notifications will be added dynamically -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sample Alerts Data
+        const alerts = [
+            { id: 'AL001', date: '2024-08-01', category: 'Malware', severity: 'High', status: 'Resolved', details: 'Malware detected in user system.' },
+            { id: 'AL002', date: '2024-08-02', category: 'Phishing', severity: 'Medium', status: 'Unresolved', details: 'Phishing attempt detected via email.' },
+            { id: 'AL003', date: '2024-08-03', category: 'Intrusion', severity: 'Critical', status: 'Unresolved', details: 'Unauthorized access attempt to server.' },
+            { id: 'AL004', date: '2024-08-04', category: 'DDoS', severity: 'High', status: 'Resolved', details: 'DDoS attack on website detected.' },
+            { id: 'AL005', date: '2024-08-05', category: 'Malware', severity: 'Low', status: 'Resolved', details: 'Adware detected in user system.' },
+            { id: 'AL006', date: '2024-08-06', category: 'Phishing', severity: 'Critical', status: 'Unresolved', details: 'Phishing website mimicking bank.' },
+        ];
+
+        // Populate Table and Summary
+        function populateTable() {
+            const tbody = document.querySelector('#alertsTable tbody');
+            tbody.innerHTML = '';
+            alerts.forEach(alert => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${alert.id}</td>
+                    <td>${alert.date}</td>
+                    <td>${alert.category}</td>
+                    <td>${alert.severity}</td>
+                    <td>${alert.status}</td>
+                    <td><button onclick="showDetails('${alert.id}')">View Details</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+            updateSummary();
+        }
+
+        function updateSummary() {
+            document.getElementById('totalAlerts').innerText = alerts.length;
+            document.getElementById('highSeverity').innerText = alerts.filter(a => a.severity === 'High' || a.severity === 'Critical').length;
+            document.getElementById('unresolvedAlerts').innerText = alerts.filter(a => a.status === 'Unresolved').length;
+        }
+
+        function filterAlerts() {
+            const category = document.querySelector('#alertCategoryFilter').value;
+            const filteredAlerts = category ? alerts.filter(alert => alert.category === category) : alerts;
+            updateTable(filteredAlerts);
+        }
+
+        function updateTable(filteredAlerts) {
+            const tbody = document.querySelector('#alertsTable tbody');
+            tbody.innerHTML = '';
+            filteredAlerts.forEach(alert => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${alert.id}</td>
+                    <td>${alert.date}</td>
+                    <td>${alert.category}</td>
+                    <td>${alert.severity}</td>
+                    <td>${alert.status}</td>
+                    <td><button onclick="showDetails('${alert.id}')">View Details</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Show Alert Details
+        function showDetails(alertId) {
+            const alert = alerts.find(a => a.id === alertId);
+            document.getElementById('alertDetails').innerHTML = `
+                <h3>${alert.id} - ${alert.category}</h3>
+                <p><strong>Date:</strong> ${alert.date}</p>
+                <p><strong>Severity:</strong> ${alert.severity}</p>
+                <p><strong>Status:</strong> ${alert.status}</p>
+                <p><strong>Details:</strong> ${alert.details}</p>
+            `;
+        }
+
+    // Convert table data to CSV format
+    function exportTableToCSV() {
+    let csv = [];
+    const rows = document.querySelectorAll('#alertsTable tr');
+
+    // Loop through rows to build CSV content
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td, th');
+        let rowData = [];
+        cells.forEach(cell => {
+            rowData.push(cell.innerText); // Add the cell content to the row
+        });
+        csv.push(rowData.join(',')); // Join the row with commas
+    });
+
+    // Convert the CSV array to a string
+    const csvContent = csv.join('\n');
+
+    // Create a downloadable CSV file
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    // Create a link element and simulate a click to download the file
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'alerts.csv');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a); // Remove the link after download
+}
+
+        // Attach the CSV export function to the button
+        document.getElementById('exportAlerts').addEventListener('click', exportTableToCSV);
+
+        // Sample Charts
+        const ctx1 = document.getElementById('alertStatsChart').getContext('2d');
+        const alertStatsChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Malware', 'Phishing', 'Intrusion', 'DDoS'],
+                datasets: [{
+                    label: 'Number of Alerts',
+                    data: [5, 3, 1, 2],
+                    backgroundColor: ['#dc3545', '#ffc107', '#17a2b8', '#28a745'],
+                }]
+            },
+        });
+
+        const ctx2 = document.getElementById('alertTrendsChart').getContext('2d');
+        const alertTrendsChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Alerts Over Time',
+                    data: [5, 10, 7, 8, 12, 15],
+                    borderColor: '#007bff',
+                    fill: false,
+                }]
+            },
+        });
+
+        // Real-Time Notification System
+        function showNotification(message) {
+            const notificationContainer = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerText = message;
+            notificationContainer.appendChild(notification);
+            notificationContainer.style.display = 'block';
+            setTimeout(() => {
+                notification.remove();
+                if (notificationContainer.children.length === 0) {
+                    notificationContainer.style.display = 'none';
+                }
+            }, 5000);
+        }
+
+        // Simulate real-time alerts every 10 seconds
+        setInterval(() => {
+            const newAlert = {
+                id: `AL00${alerts.length + 1}`,
+                date: new Date().toLocaleString(),
+                category: 'New Category',
+                severity: 'Info',
+                status: 'New',
+                details: 'A new alert has been triggered.'
+            };
+            alerts.push(newAlert);
+            populateTable();
+            showNotification(`New Alert: ${newAlert.category} - ${newAlert.details}`);
+        }, 10000);
+
+        // Initial population of alerts
+        populateTable();
+    </script>
+</body>
+</html>
